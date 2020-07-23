@@ -44,6 +44,11 @@ public class UserController {
     @RequestMapping("/findAll.do")
     public  ModelAndView findAll(@RequestParam(defaultValue = "1")int currentPage, String username,
                                  @RequestParam(defaultValue = "0")int type, HttpSession httpSession){
+        if(type==1){
+            httpSession.setAttribute("searchName",username);
+        }else{
+            username=(String) httpSession.getAttribute("searchName");
+        }
         PageInfo<User> pageInfo = userService.findAll(currentPage,username);
         ModelAndView mv = new ModelAndView();
         mv.addObject("pageInfo",pageInfo);

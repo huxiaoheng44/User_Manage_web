@@ -1,12 +1,17 @@
 package com.huxiaoheng.bean;
 
 import java.util.List;
-
+//PageInfo.java
 public class PageInfo<T> {
+    //存储用户列表
     private List<T> list;
+    //单页的数据项数量
     private int size;
+    //总页数
     private int totalPage;
+    //数据项总数
     private int totalCount;
+    //当前页数
     private int currentPage;
 
     public List<T> getList() {

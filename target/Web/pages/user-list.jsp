@@ -120,6 +120,7 @@
 									</div>
 								</div>
 							</div>
+<%--							搜索--%>
 							<form action="${pageContext.request.contextPath}/user/findAll.do?type=1"
 								  method="post">
 								<div class="col-md-4 data1">
@@ -144,20 +145,22 @@
 										<th class="text-center">操作</th>
 									</tr>
 								</thead>
-								<tbody>
-								    <c:forEach items="${users}" var="user">
-										<tr>
-											<td><input id="ids" name="ids" type="checkbox" value="${user.id}"></td>
-											<td>${user.id}</td>
-											<td>${user.username}</td>
-											<td>${user.password}</td>
-											<td class="text-center">
-												<a href="/user/toUpdate.do?id=${user.id}" class="btn bg-olive btn-xs">更新</a>
-												<a href="/user/deleteById.do?id=${user.id}" class="btn bg-olive btn-xs">删除</a>
 
-											</td>
-										</tr>
-									</c:forEach>
+								<tbody>
+								<c:forEach items="${pageInfo.list}" var="user">
+									<tr>
+										<td><input id="ids" name="ids" type="checkbox" value="${user.id}"></td>
+										<td>${user.id}</td>
+										<td>${user.username}</td>
+										<td>${user.password}</td>
+										<td class="text-center">
+											<a href="/user/toUpdate.do?id=${user.id}" class="btn bg-olive btn-xs">更新</a>
+											<a href="/user/deleteById.do?id=${user.id}" class="btn bg-olive btn-xs">删除</a>
+
+										</td>
+									</tr>
+								</c:forEach>
+								
 									
 								</tbody>
 								<!--
@@ -182,6 +185,17 @@
 
 					</div>
 					<!-- /.box-footer-->
+					<div class="box-tools pull-right">
+						<ul class="pagination">
+							<li><a href="/user/findAll.do" aria-label="Previous">首页</a></li>
+							<li><a href="/user/findAll.do?currentPage=${pageInfo.currentPage-1}">上一页</a></li>
+							<c:forEach begin="1" end="${pageInfo.totalPage}" var="pageNum">
+								<li><a href="/user/findAll.do?currentPage=${pageNum}">${pageNum}</a></li>
+							</c:forEach>
+							<li><a href="/user/findAll.do?currentPage=${pageInfo.currentPage+1}">下一页</a></li>
+							<li><a href="/user/findAll.do?currentPage=${pageInfo.totalPage}" aria-label="Next">尾页</a></li>
+						</ul>
+					</div>
 
 
 
