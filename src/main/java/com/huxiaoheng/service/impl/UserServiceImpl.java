@@ -72,5 +72,10 @@ public class UserServiceImpl implements UserService {
         userDao.update(user);
     }
 
+    @Override
+    public void deleteAll(List<Integer> ids) {
+        userDao.deleteAll(ids);
+    }
+
 
 }

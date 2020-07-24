@@ -156,11 +156,15 @@
 										<td class="text-center">
 											<a href="/user/toUpdate.do?id=${user.id}" class="btn bg-olive btn-xs">更新</a>
 											<a href="/user/deleteById.do?id=${user.id}" class="btn bg-olive btn-xs">删除</a>
+											<% List<Integer> roleIds = (List<Integer>) session.getAttribute("roleIds");%>
+											<% if (roleIds.contains(1)) { %>
+											<a href="/user/toAddRole.do?id=${user.id}">添加角色</a>
+											<% } %>
 
 										</td>
 									</tr>
 								</c:forEach>
-								
+
 									
 								</tbody>
 								<!--

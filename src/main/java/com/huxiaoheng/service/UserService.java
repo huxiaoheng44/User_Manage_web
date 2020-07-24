@@ -2,9 +2,10 @@ package com.huxiaoheng.service;
 
 import com.huxiaoheng.bean.PageInfo;
 import com.huxiaoheng.bean.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
+//UserService.java
 public interface UserService {
     int login(String username,String password);
 
@@ -18,4 +19,6 @@ public interface UserService {
     User selectByID(int id);
 
     void update(User user);
+
+    void deleteAll(@Param("ids")List<Integer> ids);
 }

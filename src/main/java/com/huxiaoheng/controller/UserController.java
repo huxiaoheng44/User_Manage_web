@@ -1,15 +1,20 @@
 package com.huxiaoheng.controller;
 
 import com.huxiaoheng.bean.PageInfo;
+import com.huxiaoheng.bean.Role;
 import com.huxiaoheng.bean.User;
+import com.huxiaoheng.service.RoleService;
 import com.huxiaoheng.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 //UserController.java
@@ -20,12 +25,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     @RequestMapping("/login.do")
-    public ModelAndView login(User user){
+    public ModelAndView login(User user,HttpSession session){
         int id = userService.login(user.getUsername(),user.getPassword());
+
         ModelAndView mv = new ModelAndView();
         if(id!=-1){
+            List<Integer> roleIds = roleService.findRoleId(id);
+            session.setAttribute("roleIds",roleIds);
             mv.setViewName("main");
+            session.setAttribute("user",user);
         }else {
             mv.setViewName("../failer");
         }
@@ -84,6 +96,38 @@ public class UserController {
         return "redirect:findAll.do";
     }
 
+    @RequestMapping("/deleteAll.do")
+    public String deleteAll(String userList){
+        String[] str = userList.split(",");
+        List<Integer> ids = new ArrayList<>();
+        for (String s:str){
+            ids.add(Integer.parseInt(s));
+        }
+        userService.deleteAll(ids);
+        return "redirect:findAll.do";
+    }
+
+    @RequestMapping("/toAddRole.do")
+    public ModelAndView toAddRole(int id){
+        List<Role> roleList = roleService.findRoleByUserId(id);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("roles",roleList);
+        mv.addObject("id",id);
+        mv.setViewName("user-role-add");
+        return mv;
+    }
+
+    @RequestMapping("/addRole.do")
+    @ResponseBody
+    public String add(String roleList,String userId){
+        String[] strs = roleList.split(",");
+        List<Integer> ids = new ArrayList<>();
+        for(String s:strs){
+            ids.add(Integer.parseInt(s));
+        }
+        roleService.add(ids,userId);
+        return "";
+    }
 
 
 }

@@ -25,5 +25,7 @@ public interface UserDao {
     //获取搜索的总数
     int getTotalCount(@Param("username")String username);
 
+    void deleteAll(@Param("ids")List<Integer> ids);
+
 
 }

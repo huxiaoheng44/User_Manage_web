@@ -35,4 +35,11 @@
             where username like concat("%",#{username},"%")
         </if>
     </select>
+
+    <delete id="deleteAll">
+        delete from user where id in 
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
